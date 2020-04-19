@@ -69,6 +69,7 @@ export default {
    * Router config
    */
   router: {
-    routeNameSplitter: '/'
-  },
+    routeNameSplitter: '/',
+    base: '/yummy/'
+  }
 } as Configuration

@@ -8,7 +8,7 @@
 # install dependencies
 $ npm install
 
-# serve with hot reload at localhost:8000
+# serve with hot reload at localhost:8000/yummy
 $ npm run dev
 
 # generate static project
