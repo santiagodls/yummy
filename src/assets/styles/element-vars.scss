@@ -1,0 +1,8 @@
+// This file will be included on each call to scss modules via webpack
+
+$--color-text-regular: #091e43;
+$--border-width-base: 2px;
+$--border-color-base: #e0e2e6;
+$--input-icon-color: #97a0af;
+$--input-placeholder-color: $--input-icon-color;
+$--input-background-color: #f9fafb;

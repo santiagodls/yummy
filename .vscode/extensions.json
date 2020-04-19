@@ -1,0 +1,9 @@
+{
+  "recommendations": [
+    "dbaeumer.vscode-eslint",
+    "octref.vetur",
+    "dariofuzinato.vue-peek",
+    "elemefe.vscode-element-helper",
+    "tobermory.es6-string-html"
+  ]
+}
