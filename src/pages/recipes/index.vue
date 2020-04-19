@@ -1,0 +1,118 @@
+<script lang="ts">
+import { Vue, Component, Watch } from 'nuxt-property-decorator'
+import { Input as ElInput, Icon as ElIcon } from 'element-ui'
+import AppFooter from '@/components/AppFooter.vue'
+
+const recipes = require.context('@/assets/recipes', false, /\.md$/)
+const typesImgs = require.context('@/assets/images/recipe-types', false, /\.svg$/)
+
+const components = {
+  ElInput,
+  ElIcon,
+  AppFooter
+}
+
+@Component({ components })
+export default class RecipesPage extends Vue {
+  recipes: Recipe[] | null = null
+  query = ''
+
+  mounted () {
+    this.recipes = recipes.keys().map<Recipe>(recipes)
+  }
+
+  @Watch('query')
+  private _onQueryChanged () {
+    this.recipes = recipes.keys().map<Recipe>(recipes)
+      .filter((recipe) => {
+        // https://es.stackoverflow.com/questions/62031/eliminar-signos-diacr%C3%ADticos-en-javascript-eliminar-tildes-acentos-ortogr%C3%A1ficos
+        const normalize = (string: string) => string.normalize('NFD').replace(/[\u0300-\u036f]/g, '') // eslint-disable-line
+
+        const title = normalize(recipe.attributes.title)
+        const query = normalize(this.query)
+        return title.match(new RegExp(query, 'i'))
+      })
+  }
+
+  private _computeRecipeLink (recipe: Recipe) {
+    const slug = recipe.meta.resourcePath.match(/([\w-_\d]+)\.md$/)
+    return `/recipes/${slug?.[1] || ''}`
+  }
+
+  private _computeRecipeImg (recipe: Recipe) {
+    return typesImgs(`./${recipe.attributes.type}.svg`)
+  }
+
+  private _computeIngredientsLength (recipe: Recipe) {
+    const length = recipe.attributes.ingredients?.length ?? 0
+    return `${length} ${length === 1 ? 'ingrediente' : 'ingredientes'}`
+  }
+}
+</script>
+
+<template lang="pug">
+.recipes.page
+  header.header: ElInput.searchbar(
+    placeholder='Buscar una receta'
+    prefix-icon='el-icon-search'
+    v-model='query'
+    clearable
+  )
+
+  ul.recipes-list
+    nuxt-link.recipe(
+      v-for='recipe, index in recipes'
+      :to='_computeRecipeLink(recipe)'
+      :key='index'
+      tag='li'
+    )
+      .recipe-img
+        img(:src='_computeRecipeImg(recipe)')
+      .recipe-details
+        h1.title {{ recipe.attributes.title }}
+        .info
+          span <i class='el-icon-time'/> {{ recipe.attributes.time }}
+          span <i class='el-icon-odometer'/> {{ recipe.attributes.difficulty }}
+          span <i class='el-icon-food'/> {{ _computeIngredientsLength(recipe) }}
+
+  AppFooter
+
+</template>
+
+<style lang="stylus" scoped>
+.page
+  display: flex;
+  flex-direction: column;
+
+.header
+  background: white;
+  position: sticky;
+  top: 0; left: 0;
+  z-index: 1;
+
+.recipes-list
+  flex: 1;
+  padding-top: 0;
+
+.recipe
+  display: flex;
+  padding: .5em 0;
+
+  &-img
+    width: 3.5em;
+    flex-shrink: 0;
+    margin-right: 1em;
+    position: relative;
+    img
+      width: 100%;
+
+  &-details
+    flex: 1;
+
+  .info
+    display: flex;
+    color: var(--color-info)
+    > *
+      margin-right: .5em;
+
+</style>
