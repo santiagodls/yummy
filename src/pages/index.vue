@@ -10,7 +10,7 @@ export default class IndexPage extends Vue {
   }
 
   mounted () {
-    // if is a chrome PWA then splash screen was displayed, so we aboid to introduce logo again
+    // if is a chrome PWA then splash screen was displayed, so we avoid to introduce logo again
     if (this.onChromePWA) this.forward()
   }
 

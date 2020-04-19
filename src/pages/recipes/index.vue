@@ -61,7 +61,7 @@ export default class RecipesPage extends Vue {
     clearable
   )
 
-  ul.recipes-list
+  ul.recipes-list(v-if='recipes && recipes.length')
     nuxt-link.recipe(
       v-for='recipe, index in recipes'
       :to='_computeRecipeLink(recipe)'
@@ -73,6 +73,10 @@ export default class RecipesPage extends Vue {
       .recipe-details
         h1.title {{ recipe.attributes.title }}
         AppRecipeMeta(:recipe='recipe')
+
+  ul.recipes-list.empty(v-else)
+    img.empty-img(src='@/assets/images/recipe.svg')
+    h1.empty-msg No se encontraron recetas para tu búsqueda
 
   AppFooter
 
@@ -107,5 +111,21 @@ export default class RecipesPage extends Vue {
 
   &-details
     flex: 1;
+
+.recipes-list.empty
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  .empty-img
+    width: 7em;
+    margin: 0 0 1em 1.5em;
+
+  .empty-msg
+    text-align center;
+    width: 10em;
+    color: #151721;
+    font-size: 1.2em;
 
 </style>
