@@ -6,4 +6,4 @@ dist
 # Files
 tmp/*
 .env
-sw.js
+sw.*
