@@ -3,11 +3,29 @@ import { Vue, Component } from 'nuxt-property-decorator'
 
 @Component
 export default class IndexPage extends Vue {
+  get onChromePWA () {
+    const isPWA = process.client && window.matchMedia('(display-mode: standalone)').matches
+    const isChrome = process.client && navigator.userAgent.match(/Chrome/)
+    return isPWA && isChrome
+  }
+
+  mounted () {
+    // if is a chrome PWA then splash screen was displayed, so we aboid to introduce logo again
+    if (this.onChromePWA) this.forward()
+  }
+
+  /**
+   * Continue to next screen
+   */
+  forward () {
+    this.$router.push('/recipes')
+  }
+
+  /**
+   * Event handlers
+   */
   private _onLogoAnimationEnd () {
-    window.setTimeout(() => {
-      // redirect to recipes list 2 second after animation end
-      this.$router.push('/recipes')
-    }, 2000)
+    window.setTimeout(this.forward.bind(this), 2000)
   }
 }
 </script>
@@ -15,6 +33,7 @@ export default class IndexPage extends Vue {
 <template lang="pug">
 .index.page
   img.logo(
+    v-if='!onChromePWA'
     src='@/assets/images/logo.svg'
     @animationend='_onLogoAnimationEnd'
   )
