@@ -3,7 +3,6 @@ type RecipeType = 'breakfast' | 'main' | 'dessert' | 'snack'
 interface RecipeAttributes {
   type: RecipeType
   title: string
-  subtitle: string
   image: string
   time: string
   difficulty: string
