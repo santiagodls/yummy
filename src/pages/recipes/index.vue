@@ -23,6 +23,15 @@ export default class RecipesPage extends Vue {
     this.recipes = recipes.keys().map<Recipe>(recipes)
   }
 
+  private _computeRecipeLink (recipe: Recipe) {
+    const slug = recipe.meta.resourcePath.match(/([\w-_\d]+)\.md$/)
+    return `/recipes/${slug?.[1] || ''}`
+  }
+
+  private _computeRecipeImg (recipe: Recipe) {
+    return typesImgs(`./${recipe.attributes.type}.svg`)
+  }
+
   @Watch('query')
   private _onQueryChanged () {
     this.recipes = recipes.keys().map<Recipe>(recipes)
@@ -36,13 +45,8 @@ export default class RecipesPage extends Vue {
       })
   }
 
-  private _computeRecipeLink (recipe: Recipe) {
-    const slug = recipe.meta.resourcePath.match(/([\w-_\d]+)\.md$/)
-    return `/recipes/${slug?.[1] || ''}`
-  }
-
-  private _computeRecipeImg (recipe: Recipe) {
-    return typesImgs(`./${recipe.attributes.type}.svg`)
+  private _onInputChanged (input: string) {
+    this.query = input
   }
 }
 </script>
@@ -53,6 +57,7 @@ export default class RecipesPage extends Vue {
     placeholder='Buscar una receta'
     prefix-icon='el-icon-search'
     v-model='query'
+    @change='_onInputChanged'
     clearable
   )
 
