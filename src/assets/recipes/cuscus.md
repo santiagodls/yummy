@@ -1,8 +1,7 @@
 ---
 type: main
 title: Al rico cuscús!
-subtitle: Como ningún otro
-image: cuscus.png
+image: cuscus.jpg
 time: 1h
 difficulty: fácil
 ingredients:

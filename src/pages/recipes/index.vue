@@ -2,6 +2,7 @@
 import { Vue, Component, Watch } from 'nuxt-property-decorator'
 import { Input as ElInput, Icon as ElIcon } from 'element-ui'
 import AppFooter from '@/components/AppFooter.vue'
+import AppRecipeMeta from '@/components/AppRecipeMeta.vue'
 
 const recipes = require.context('@/assets/recipes', false, /\.md$/)
 const typesImgs = require.context('@/assets/images/recipe-types', false, /\.svg$/)
@@ -9,7 +10,8 @@ const typesImgs = require.context('@/assets/images/recipe-types', false, /\.svg$
 const components = {
   ElInput,
   ElIcon,
-  AppFooter
+  AppFooter,
+  AppRecipeMeta
 }
 
 @Component({ components })
@@ -42,11 +44,6 @@ export default class RecipesPage extends Vue {
   private _computeRecipeImg (recipe: Recipe) {
     return typesImgs(`./${recipe.attributes.type}.svg`)
   }
-
-  private _computeIngredientsLength (recipe: Recipe) {
-    const length = recipe.attributes.ingredients?.length ?? 0
-    return `${length} ${length === 1 ? 'ingrediente' : 'ingredientes'}`
-  }
 }
 </script>
 
@@ -70,10 +67,7 @@ export default class RecipesPage extends Vue {
         img(:src='_computeRecipeImg(recipe)')
       .recipe-details
         h1.title {{ recipe.attributes.title }}
-        .info
-          span <i class='el-icon-time'/> {{ recipe.attributes.time }}
-          span <i class='el-icon-odometer'/> {{ recipe.attributes.difficulty }}
-          span <i class='el-icon-food'/> {{ _computeIngredientsLength(recipe) }}
+        AppRecipeMeta(:recipe='recipe')
 
   AppFooter
 
@@ -108,11 +102,5 @@ export default class RecipesPage extends Vue {
 
   &-details
     flex: 1;
-
-  .info
-    display: flex;
-    color: var(--color-info)
-    > *
-      margin-right: .5em;
 
 </style>
