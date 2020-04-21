@@ -38,7 +38,7 @@ export default class RecipePage extends Vue {
       h1.recipe-title {{ recipe.attributes.title }}
       AppRecipeMeta.recipe-meta(:recipe='recipe')
 
-    img.recipe-img(:src='_computeRecipeImg()')
+    img.recipe-img(v-if='recipe.attributes.image' :src='_computeRecipeImg()')
 
     .recipe-ingredients
       h3.title Ingredientes
