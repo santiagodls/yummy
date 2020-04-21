@@ -4,7 +4,7 @@ import { Input as ElInput, Icon as ElIcon } from 'element-ui'
 import AppFooter from '@/components/AppFooter.vue'
 import AppRecipeMeta from '@/components/AppRecipeMeta.vue'
 
-const recipes = require.context('@/assets/recipes', false, /\.md$/)
+const recipes = require.context('@/assets/recipes', true, /\.md$/)
 const typesImgs = require.context('@/assets/images/recipe-types', false, /\.svg$/)
 
 const components = {
@@ -24,7 +24,7 @@ export default class RecipesPage extends Vue {
   }
 
   private _computeRecipeLink (recipe: Recipe) {
-    const slug = recipe.meta.resourcePath.match(/([\w-_\d]+)\.md$/)
+    const slug = recipe.meta.resourcePath.match(/.+recipes\/(.+?)\.md$/)
     return `/recipes/${slug?.[1] || ''}`
   }
 
