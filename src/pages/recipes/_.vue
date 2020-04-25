@@ -15,8 +15,8 @@ export default class RecipePage extends Vue {
   recipe: Recipe | null = null
 
   mounted () {
-    const slug = this.$route.params.slug
-    this.recipe = require(`@/assets/recipes/${slug}.md`)
+    const recipePath = this.$route.params.pathMatch
+    this.recipe = require(`@/assets/recipes/${recipePath}.md`)
   }
 
   private _computeRecipeImg () {
