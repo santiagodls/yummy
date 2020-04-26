@@ -1,3 +1,6 @@
 import 'element-theme-chalk/src/base.scss'
 import 'element-theme-chalk/src/input.scss'
+import 'element-theme-chalk/src/tag.scss'
+import 'element-theme-chalk/src/radio.scss'
+import 'element-theme-chalk/src/radio-group.scss'
 import '@/assets/styles/element-components.scss'
