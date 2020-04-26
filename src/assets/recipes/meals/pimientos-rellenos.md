@@ -2,6 +2,7 @@
 type: main
 title: Pimientos rellenos
 time: 1h
+image: meals/pimientos-rellenos.jpg
 difficulty: fácil
 ingredients:
   - 4 pimientos grandes

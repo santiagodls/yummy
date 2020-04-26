@@ -1,6 +1,7 @@
 ---
 type: dessert
 title: Tarta de avena
+image: dessert/tarta-avena.jpg
 time: 1h
 difficulty: fácil
 ingredients:
