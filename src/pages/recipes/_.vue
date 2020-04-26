@@ -3,7 +3,7 @@ import { Vue, Component } from 'nuxt-property-decorator'
 import AppFooter from '@/components/AppFooter.vue'
 import AppRecipeMeta from '@/components/AppRecipeMeta.vue'
 
-const recipeImgs = require.context('@/assets/images/recipe-images', false)
+const recipeImgs = require.context('@/assets/images/recipe-images', true)
 
 const components = {
   AppFooter,
