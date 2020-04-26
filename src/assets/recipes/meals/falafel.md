@@ -1,6 +1,7 @@
 ---
 type: main
 title: Falafel
+image: meals/falafel.jpg
 time: 1h
 difficulty: fácil
 ingredients:

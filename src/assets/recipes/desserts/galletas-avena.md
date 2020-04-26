@@ -2,6 +2,7 @@
 type: dessert
 title: Galletas Avena
 time: 1h
+image: dessert/galletas-avena.jpg
 difficulty: fácil
 ingredients:
   - 1 banana

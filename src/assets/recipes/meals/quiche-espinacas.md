@@ -2,6 +2,7 @@
 type: main
 title: Quiche Espinacas
 time: 1h
+image: meals/quiche-espinacas.jpg
 difficulty: fácil
 ingredients:
   - 1 masa de hojaldre o masa brisa

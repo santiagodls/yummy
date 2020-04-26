@@ -1,6 +1,7 @@
 ---
 type: main
 title: Boloñesa de soja con alubias pintas
+image: meals/bolonesa-soja-alubias-pintas.jpg
 time: 1h
 difficulty: fácil
 ingredients:

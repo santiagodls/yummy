@@ -2,6 +2,7 @@
 type: main
 title: Quiche Loraine
 time: 1h
+image: meals/quiche-lorraine.jpg
 difficulty: fácil
 ingredients:
   - 1 masa de hojaldre o masa brisa
