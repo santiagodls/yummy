@@ -3,6 +3,7 @@ type: main
 title: Pastel de puerros y peras
 time: 1h
 difficulty: fácil
+servings: 3
 ingredients:
   - 5 puerros
   - 2 peras

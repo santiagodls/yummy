@@ -3,8 +3,9 @@ type: main
 title: Lasaña boloñesa de soja
 time: 1h
 difficulty: fácil
+servings: 6
 ingredients:
-  - 120 gr de soja texturizada fina
+  - 300 gr de soja texturizada fina
   - 1 cebolla
   - 1 pimiento rojo
   - 1 zanahoria

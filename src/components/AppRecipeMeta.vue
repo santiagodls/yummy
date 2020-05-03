@@ -14,9 +14,10 @@ export default class AppRecipeMeta extends Vue {
 
 <template lang="pug">
 .app-recipe-meta(v-if='recipe')
-  span <i class='el-icon-time'/> {{ recipe.attributes.time }}
-  span <i class='el-icon-odometer'/> {{ recipe.attributes.difficulty }}
+  span(v-if='recipe.attributes.time') <i class='el-icon-time'/> {{ recipe.attributes.time }}
+  span(v-if='recipe.attributes.difficulty') <i class='el-icon-odometer'/> {{ recipe.attributes.difficulty }}
   span <i class='el-icon-food'/> {{ _computeIngredientsLength(recipe) }}
+  span(v-if='recipe.attributes.servings') <i class='el-icon-dish'/> {{ recipe.attributes.servings }} raciones
 
 .app-recipe-meta(v-else)
 

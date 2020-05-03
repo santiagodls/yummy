@@ -4,6 +4,7 @@ title: Quiche Loraine
 time: 1h
 image: meals/quiche-lorraine.jpg
 difficulty: fácil
+servings: 4
 ingredients:
   - 1 masa de hojaldre o masa brisa
   - 5 huevos

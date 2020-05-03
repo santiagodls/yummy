@@ -4,6 +4,7 @@ title: Lentejas rojas con quinoa
 image: meals/lentejas-rojas-quinoa.jpg
 time: 1h
 difficulty: fácil
+servings: 6
 ingredients:
   - 1 cebolla
   - 1 pimiento rojo
