@@ -1,23 +1,19 @@
 <script lang="ts">
 import { Vue, Component, Prop } from 'nuxt-property-decorator'
+import RecipePresenter from '@/presenters/recipe-presenter'
 
 @Component
 export default class AppRecipeMeta extends Vue {
-  @Prop() recipe!: Recipe
-
-  private _computeIngredientsLength (recipe: Recipe) {
-    const length = recipe.attributes.ingredients?.length ?? 0
-    return `${length} ${length === 1 ? 'ingrediente' : 'ingredientes'}`
-  }
+  @Prop() recipe!: RecipePresenter
 }
 </script>
 
 <template lang="pug">
 .app-recipe-meta(v-if='recipe')
-  span(v-if='recipe.attributes.time') <i class='el-icon-time'/> {{ recipe.attributes.time }}
-  span(v-if='recipe.attributes.difficulty') <i class='el-icon-odometer'/> {{ recipe.attributes.difficulty }}
-  span <i class='el-icon-food'/> {{ _computeIngredientsLength(recipe) }}
-  span(v-if='recipe.attributes.servings') <i class='el-icon-dish'/> {{ recipe.attributes.servings }} raciones
+  span(v-if='recipe.time') <i class='el-icon-time'/> {{ recipe.time }}
+  span(v-if='recipe.difficulty') <i class='el-icon-odometer'/> {{ recipe.difficulty }}
+  span <i class='el-icon-food'/> {{ recipe.ingredientsLength }}
+  span(v-if='recipe.servings') <i class='el-icon-dish'/> {{ recipe.servings }} raciones
 
 .app-recipe-meta(v-else)
 

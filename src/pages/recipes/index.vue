@@ -4,11 +4,11 @@ import { Input as ElInput, Icon as ElIcon } from 'element-ui'
 import AppFooter from '@/components/AppFooter.vue'
 import AppRecipeMeta from '@/components/AppRecipeMeta.vue'
 import AppFilter from '@/components/AppFilter.vue'
+import RecipePresenter from '@/presenters/recipe-presenter'
 
 export type RecipeTypeFilter = RecipeType | 'all'
 
 const recipes = require.context('@/assets/recipes', true, /\.md$/)
-const typesImgs = require.context('@/assets/images/recipe-types', false, /\.svg$/)
 
 const components = {
   ElInput,
@@ -25,7 +25,7 @@ export const recipeTypes: RecipeType[] = [
 @Component({ components })
 export default class RecipesPage extends Vue {
   filter: RecipeTypeFilter = 'all'
-  recipes: Recipe[] | null = null
+  recipes: RecipePresenter[] | null = null
   query = ''
 
   recipeTypesFilters: RecipeTypeFilter[] = [
@@ -36,20 +36,7 @@ export default class RecipesPage extends Vue {
   mounted () {
     const sessionFilter = window.sessionStorage.getItem('recipe-type-filter')
     if (sessionFilter) this.filter = sessionFilter as RecipeTypeFilter
-    this.recipes = recipes.keys().map<Recipe>(recipes)
-  }
-
-  private _computeRecipeLink (recipe: Recipe) {
-    const slug = recipe.meta.resourcePath.match(/.+recipes\/(.+?)\.md$/)
-    return `/recipes/${slug?.[1] || ''}`
-  }
-
-  private _computeRecipeImg (recipe: Recipe) {
-    if (typeof recipe.attributes.type === 'undefined') {
-      window.console.warn(`Recipe ${recipe.meta.resourcePath} has no type defined`)
-      return typesImgs('./main.svg')
-    }
-    return typesImgs(`./${recipe.attributes.type}.svg`)
+    this.recipes = recipes.keys().map(key => new RecipePresenter(recipes(key)))
   }
 
   /**
@@ -58,13 +45,13 @@ export default class RecipesPage extends Vue {
   @Watch('query')
   @Watch('filter')
   private _onQueryOrFilterChanged () {
-    this.recipes = recipes.keys().map<Recipe>(recipes)
+    this.recipes = recipes.keys().map(key => new RecipePresenter(recipes(key)))
       .filter((recipe) => {
-        if (this.filter === 'all' || this.filter === recipe.attributes.type) {
+        if (this.filter === 'all' || this.filter === recipe.type) {
           // https://es.stackoverflow.com/questions/62031/eliminar-signos-diacr%C3%ADticos-en-javascript-eliminar-tildes-acentos-ortogr%C3%A1ficos
           const normalize = (string: string) => string.normalize('NFD').replace(/[\u0300-\u036f]/g, '') // eslint-disable-line
 
-          const title = normalize(recipe.attributes.title)
+          const title = normalize(recipe.title)
           const query = normalize(this.query)
           return title.match(new RegExp(query, 'i'))
         }
@@ -100,14 +87,14 @@ export default class RecipesPage extends Vue {
   ul.recipes-list(v-if='recipes && recipes.length')
     nuxt-link.recipe(
       v-for='recipe, index in recipes'
-      :to='_computeRecipeLink(recipe)'
+      :to='recipe.link'
       :key='index'
       tag='li'
     )
       .recipe-img
-        img(:src='_computeRecipeImg(recipe)')
+        img(:src='recipe.typeImg')
       .recipe-details
-        h1.title {{ recipe.attributes.title }}
+        h1.title {{ recipe.title }}
         AppRecipeMeta(:recipe='recipe')
 
   ul.recipes-list.empty(v-else)

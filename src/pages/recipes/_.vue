@@ -2,8 +2,7 @@
 import { Vue, Component } from 'nuxt-property-decorator'
 import AppFooter from '@/components/AppFooter.vue'
 import AppRecipeMeta from '@/components/AppRecipeMeta.vue'
-
-const recipeImgs = require.context('@/assets/images/recipe-images', true)
+import RecipePresenter from '@/presenters/recipe-presenter'
 
 const components = {
   AppFooter,
@@ -12,15 +11,14 @@ const components = {
 
 @Component({ components })
 export default class RecipePage extends Vue {
-  recipe: Recipe | null = null
+  recipe: RecipePresenter | null = null
+  recipeDescription: any
 
   mounted () {
     const recipePath = this.$route.params.pathMatch
-    this.recipe = require(`@/assets/recipes/${recipePath}.md`)
-  }
-
-  private _computeRecipeImg () {
-    return recipeImgs(`./${this.recipe!.attributes.image}`)
+    const requiredRecipe = require(`@/assets/recipes/${recipePath}.md`)
+    this.recipe = new RecipePresenter(requiredRecipe)
+    this.recipeDescription = requiredRecipe.vue.component
   }
 
   private _onGoBackClicked () {
@@ -35,18 +33,18 @@ export default class RecipePage extends Vue {
 
   main.recipe-wrapper(v-if='recipe')
     header.recipe-header
-      h1.recipe-title {{ recipe.attributes.title }}
+      h1.recipe-title {{ recipe.title }}
       AppRecipeMeta.recipe-meta(:recipe='recipe')
 
-    img.recipe-img(v-if='recipe.attributes.image' :src='_computeRecipeImg()')
+    img.recipe-img(v-if='recipe.img' :src='recipe.img')
 
     .recipe-ingredients
       h3.title Ingredientes
       ul.list
-        li.list-item(v-for='ingredient in recipe.attributes.ingredients')
+        li.list-item(v-for='ingredient in recipe.ingredients')
           | {{ ingredient }}
 
-    recipe.recipe(:is='recipe.vue.component')
+    recipe.recipe(:is='recipeDescription')
 
   main.recipe-wrapper(v-else)
 
