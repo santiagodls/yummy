@@ -45,6 +45,10 @@ export default class RecipesPage extends Vue {
   }
 
   private _computeRecipeImg (recipe: Recipe) {
+    if (typeof recipe.attributes.type === 'undefined') {
+      window.console.warn(`Recipe ${recipe.meta.resourcePath} has no type defined`)
+      return typesImgs('./main.svg')
+    }
     return typesImgs(`./${recipe.attributes.type}.svg`)
   }
 
